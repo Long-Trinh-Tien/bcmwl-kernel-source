@@ -1,0 +1,209 @@
+DKMS make.log for bcmwl-6.30.223.271+bdcom for kernel 6.5.0-41-generic (x86_64)
+Chủ nhật, 27 Tháng 10 năm 2024 01:29:56 +07
+make: Entering directory '/usr/src/linux-headers-6.5.0-41-generic'
+warning: the compiler differs from the one used to build the kernel
+  The kernel was built by: x86_64-linux-gnu-gcc-12 (Ubuntu 12.3.0-1ubuntu1~22.04) 12.3.0
+  You are using:           gcc-12 (Ubuntu 12.3.0-1ubuntu1~22.04) 12.3.0
+CFG80211 API is prefered for this kernel version
+Using CFG80211 API
+  CC [M]  /var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/shared/linux_osl.o
+  CC [M]  /var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.o
+  CC [M]  /var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_iw.o
+  CC [M]  /var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_cfg80211_hybrid.o
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_cfg80211_hybrid.c:1793:20: error: initialization of ‘int (*)(struct wiphy *, struct net_device *, int,  u8,  bool,  const u8 *, struct key_params *)’ {aka ‘int (*)(struct wiphy *, struct net_device *, int,  unsigned char,  _Bool,  const unsigned char *, struct key_params *)’} from incompatible pointer type ‘s32 (*)(struct wiphy *, struct net_device *, u8,  bool,  const u8 *, struct key_params *)’ {aka ‘int (*)(struct wiphy *, struct net_device *, unsigned char,  _Bool,  const unsigned char *, struct key_params *)’} [-Werror=incompatible-pointer-types]
+ 1793 |         .add_key = wl_cfg80211_add_key,
+      |                    ^~~~~~~~~~~~~~~~~~~
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_cfg80211_hybrid.c:1793:20: note: (near initialization for ‘wl_cfg80211_ops.add_key’)
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_cfg80211_hybrid.c:1794:20: error: initialization of ‘int (*)(struct wiphy *, struct net_device *, int,  u8,  bool,  const u8 *)’ {aka ‘int (*)(struct wiphy *, struct net_device *, int,  unsigned char,  _Bool,  const unsigned char *)’} from incompatible pointer type ‘s32 (*)(struct wiphy *, struct net_device *, u8,  bool,  const u8 *)’ {aka ‘int (*)(struct wiphy *, struct net_device *, unsigned char,  _Bool,  const unsigned char *)’} [-Werror=incompatible-pointer-types]
+ 1794 |         .del_key = wl_cfg80211_del_key,
+      |                    ^~~~~~~~~~~~~~~~~~~
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_cfg80211_hybrid.c:1794:20: note: (near initialization for ‘wl_cfg80211_ops.del_key’)
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_cfg80211_hybrid.c:1795:20: error: initialization of ‘int (*)(struct wiphy *, struct net_device *, int,  u8,  bool,  const u8 *, void *, void (*)(void *, struct key_params *))’ {aka ‘int (*)(struct wiphy *, struct net_device *, int,  unsigned char,  _Bool,  const unsigned char *, void *, void (*)(void *, struct key_params *))’} from incompatible pointer type ‘s32 (*)(struct wiphy *, struct net_device *, u8,  bool,  const u8 *, void *, void (*)(void *, struct key_params *))’ {aka ‘int (*)(struct wiphy *, struct net_device *, unsigned char,  _Bool,  const unsigned char *, void *, void (*)(void *, struct key_params *))’} [-Werror=incompatible-pointer-types]
+ 1795 |         .get_key = wl_cfg80211_get_key,
+      |                    ^~~~~~~~~~~~~~~~~~~
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_cfg80211_hybrid.c:1795:20: note: (near initialization for ‘wl_cfg80211_ops.get_key’)
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_cfg80211_hybrid.c:1796:28: error: initialization of ‘int (*)(struct wiphy *, struct net_device *, int,  u8,  bool,  bool)’ {aka ‘int (*)(struct wiphy *, struct net_device *, int,  unsigned char,  _Bool,  _Bool)’} from incompatible pointer type ‘s32 (*)(struct wiphy *, struct net_device *, u8,  bool,  bool)’ {aka ‘int (*)(struct wiphy *, struct net_device *, unsigned char,  _Bool,  _Bool)’} [-Werror=incompatible-pointer-types]
+ 1796 |         .set_default_key = wl_cfg80211_config_default_key,
+      |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_cfg80211_hybrid.c:1796:28: note: (near initialization for ‘wl_cfg80211_ops.set_default_key’)
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_cfg80211_hybrid.c: In function ‘wl_bss_roaming_done’:
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_cfg80211_hybrid.c:2370:18: error: ‘struct cfg80211_roam_info’ has no member named ‘channel’
+ 2370 |         roam_info.channel = &wl->conf->channel;
+      |                  ^
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_cfg80211_hybrid.c:2371:18: error: ‘struct cfg80211_roam_info’ has no member named ‘bssid’
+ 2371 |         roam_info.bssid = (u8 *)&wl->bssid;
+      |                  ^
+In file included from /var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_cfg80211_hybrid.c:40:
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_cfg80211_hybrid.c: In function ‘wl_set_auth_type’:
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_cfg80211_hybrid.h:52:12: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   52 |         if (wl_dbg_level & WL_DBG_DBG) {                        \
+      |            ^
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_cfg80211_hybrid.c:794:17: note: in expansion of macro ‘WL_DBG’
+  794 |                 WL_DBG(("network eap\n"));
+      |                 ^~~~~~
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_cfg80211_hybrid.c:795:9: note: here
+  795 |         default:
+      |         ^~~~~~~
+cc1: some warnings being treated as errors
+make[2]: *** [scripts/Makefile.build:251: /var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_cfg80211_hybrid.o] Error 1
+make[2]: *** Waiting for unfinished jobs....
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/shared/linux_osl.c: In function ‘osl_dma_alloc_consistent’:
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/shared/linux_osl.c:603:14: error: implicit declaration of function ‘pci_alloc_consistent’; did you mean ‘osl_dma_alloc_consistent’? [-Werror=implicit-function-declaration]
+  603 |         va = pci_alloc_consistent(osh->pdev, size, (dma_addr_t*)pap);
+      |              ^~~~~~~~~~~~~~~~~~~~
+      |              osl_dma_alloc_consistent
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/shared/linux_osl.c:603:12: warning: assignment to ‘void *’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+  603 |         va = pci_alloc_consistent(osh->pdev, size, (dma_addr_t*)pap);
+      |            ^
+In file included from /var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c:81:
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_iw.h:73: warning: "isprint" redefined
+   73 | #define isprint(c) bcm_isprint(c)
+      | 
+In file included from ./include/linux/string_helpers.h:6,
+                 from ./include/linux/seq_file.h:7,
+                 from ./include/linux/seq_file_net.h:5,
+                 from ./include/net/net_namespace.h:193,
+                 from ./include/linux/netdevice.h:38,
+                 from /var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/include/linuxver.h:69,
+                 from /var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c:27:
+./include/linux/ctype.h:30: note: this is the location of the previous definition
+   30 | #define isprint(c)      ((__ismask(c)&(_P|_U|_L|_D|_SP)) != 0)
+      | 
+In file included from ./include/linux/string.h:294,
+                 from ./include/linux/bitmap.h:11,
+                 from ./include/linux/cpumask.h:12,
+                 from ./arch/x86/include/asm/paravirt.h:17,
+                 from ./arch/x86/include/asm/cpuid.h:62,
+                 from ./arch/x86/include/asm/processor.h:19,
+                 from ./arch/x86/include/asm/timex.h:5,
+                 from ./include/linux/timex.h:67,
+                 from ./include/linux/time32.h:13,
+                 from ./include/linux/time.h:60,
+                 from ./include/linux/stat.h:19,
+                 from ./include/linux/module.h:13,
+                 from /var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/include/linuxver.h:40:
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c: In function ‘wl_attach’:
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c:645:43: warning: passing argument 1 of ‘__builtin_memcpy’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+  645 |         bcopy(&wl->pub->cur_etheraddr, dev->dev_addr, ETHER_ADDR_LEN);
+./include/linux/fortify-string.h:648:27: note: in definition of macro ‘__fortify_memcpy_chk’
+  648 |         __underlying_##op(p, q, __fortify_size);                        \
+      |                           ^
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/include/linux_osl.h:156:41: note: in expansion of macro ‘memcpy’
+  156 |         #define bcopy(src, dst, len)    memcpy((dst), (src), (len))
+      |                                         ^~~~~~
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c:645:9: note: in expansion of macro ‘bcopy’
+  645 |         bcopy(&wl->pub->cur_etheraddr, dev->dev_addr, ETHER_ADDR_LEN);
+      |         ^~~~~
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c:645:43: note: expected ‘void *’ but argument is of type ‘const unsigned char *’
+  645 |         bcopy(&wl->pub->cur_etheraddr, dev->dev_addr, ETHER_ADDR_LEN);
+./include/linux/fortify-string.h:648:27: note: in definition of macro ‘__fortify_memcpy_chk’
+  648 |         __underlying_##op(p, q, __fortify_size);                        \
+      |                           ^
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/include/linux_osl.h:156:41: note: in expansion of macro ‘memcpy’
+  156 |         #define bcopy(src, dst, len)    memcpy((dst), (src), (len))
+      |                                         ^~~~~~
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c:645:9: note: in expansion of macro ‘bcopy’
+  645 |         bcopy(&wl->pub->cur_etheraddr, dev->dev_addr, ETHER_ADDR_LEN);
+      |         ^~~~~
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c: In function ‘wl_pci_probe’:
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c:784:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  784 |         if ((val & 0x0000ff00) != 0)
+      |         ^~
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c:786:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  786 |                 bar1_size = pci_resource_len(pdev, 2);
+      |                 ^~~~~~~~~
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c: In function ‘wl_set_mac_address’:
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c:1850:31: warning: passing argument 1 of ‘__builtin_memcpy’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+ 1850 |         bcopy(sa->sa_data, dev->dev_addr, ETHER_ADDR_LEN);
+./include/linux/fortify-string.h:648:27: note: in definition of macro ‘__fortify_memcpy_chk’
+  648 |         __underlying_##op(p, q, __fortify_size);                        \
+      |                           ^
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/include/linux_osl.h:156:41: note: in expansion of macro ‘memcpy’
+  156 |         #define bcopy(src, dst, len)    memcpy((dst), (src), (len))
+      |                                         ^~~~~~
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c:1850:9: note: in expansion of macro ‘bcopy’
+ 1850 |         bcopy(sa->sa_data, dev->dev_addr, ETHER_ADDR_LEN);
+      |         ^~~~~
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c:1850:31: note: expected ‘void *’ but argument is of type ‘const unsigned char *’
+ 1850 |         bcopy(sa->sa_data, dev->dev_addr, ETHER_ADDR_LEN);
+./include/linux/fortify-string.h:648:27: note: in definition of macro ‘__fortify_memcpy_chk’
+  648 |         __underlying_##op(p, q, __fortify_size);                        \
+      |                           ^
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/include/linux_osl.h:156:41: note: in expansion of macro ‘memcpy’
+  156 |         #define bcopy(src, dst, len)    memcpy((dst), (src), (len))
+      |                                         ^~~~~~
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c:1850:9: note: in expansion of macro ‘bcopy’
+ 1850 |         bcopy(sa->sa_data, dev->dev_addr, ETHER_ADDR_LEN);
+      |         ^~~~~
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c: In function ‘_wl_add_monitor_if’:
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c:3026:37: warning: passing argument 1 of ‘__builtin_memcpy’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+ 3026 |         bcopy(wl->dev->dev_addr, dev->dev_addr, ETHER_ADDR_LEN);
+./include/linux/fortify-string.h:648:27: note: in definition of macro ‘__fortify_memcpy_chk’
+  648 |         __underlying_##op(p, q, __fortify_size);                        \
+      |                           ^
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/include/linux_osl.h:156:41: note: in expansion of macro ‘memcpy’
+  156 |         #define bcopy(src, dst, len)    memcpy((dst), (src), (len))
+      |                                         ^~~~~~
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c:3026:9: note: in expansion of macro ‘bcopy’
+ 3026 |         bcopy(wl->dev->dev_addr, dev->dev_addr, ETHER_ADDR_LEN);
+      |         ^~~~~
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c:3026:37: note: expected ‘void *’ but argument is of type ‘const unsigned char *’
+ 3026 |         bcopy(wl->dev->dev_addr, dev->dev_addr, ETHER_ADDR_LEN);
+./include/linux/fortify-string.h:648:27: note: in definition of macro ‘__fortify_memcpy_chk’
+  648 |         __underlying_##op(p, q, __fortify_size);                        \
+      |                           ^
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/include/linux_osl.h:156:41: note: in expansion of macro ‘memcpy’
+  156 |         #define bcopy(src, dst, len)    memcpy((dst), (src), (len))
+      |                                         ^~~~~~
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c:3026:9: note: in expansion of macro ‘bcopy’
+ 3026 |         bcopy(wl->dev->dev_addr, dev->dev_addr, ETHER_ADDR_LEN);
+      |         ^~~~~
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/shared/linux_osl.c: In function ‘osl_dma_free_consistent’:
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/shared/linux_osl.c:616:9: error: implicit declaration of function ‘pci_free_consistent’; did you mean ‘osl_dma_free_consistent’? [-Werror=implicit-function-declaration]
+  616 |         pci_free_consistent(osh->pdev, size, va, (dma_addr_t)pa);
+      |         ^~~~~~~~~~~~~~~~~~~
+      |         osl_dma_free_consistent
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c: In function ‘wl_proc_read’:
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c:3307:26: error: implicit declaration of function ‘PDE_DATA’; did you mean ‘NODE_DATA’? [-Werror=implicit-function-declaration]
+ 3307 |         wl_info_t * wl = PDE_DATA(file_inode(filp));
+      |                          ^~~~~~~~
+      |                          NODE_DATA
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c:3307:26: warning: initialization of ‘wl_info_t *’ {aka ‘struct wl_info *’} from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c: In function ‘wl_proc_write’:
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.c:3364:26: warning: initialization of ‘wl_info_t *’ {aka ‘struct wl_info *’} from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+ 3364 |         wl_info_t * wl = PDE_DATA(file_inode(filp));
+      |                          ^~~~~~~~
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/shared/linux_osl.c: In function ‘osl_dma_map’:
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/shared/linux_osl.c:626:38: error: ‘PCI_DMA_TODEVICE’ undeclared (first use in this function); did you mean ‘DMA_TO_DEVICE’?
+  626 |         dir = (direction == DMA_TX)? PCI_DMA_TODEVICE: PCI_DMA_FROMDEVICE;
+      |                                      ^~~~~~~~~~~~~~~~
+      |                                      DMA_TO_DEVICE
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/shared/linux_osl.c:626:38: note: each undeclared identifier is reported only once for each function it appears in
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/shared/linux_osl.c:626:56: error: ‘PCI_DMA_FROMDEVICE’ undeclared (first use in this function); did you mean ‘DMA_FROM_DEVICE’?
+  626 |         dir = (direction == DMA_TX)? PCI_DMA_TODEVICE: PCI_DMA_FROMDEVICE;
+      |                                                        ^~~~~~~~~~~~~~~~~~
+      |                                                        DMA_FROM_DEVICE
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/shared/linux_osl.c:659:17: error: implicit declaration of function ‘pci_map_single’; did you mean ‘dma_map_single’? [-Werror=implicit-function-declaration]
+  659 |         return (pci_map_single(osh->pdev, va, size, dir));
+      |                 ^~~~~~~~~~~~~~
+      |                 dma_map_single
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/shared/linux_osl.c: In function ‘osl_dma_unmap’:
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/shared/linux_osl.c:668:38: error: ‘PCI_DMA_TODEVICE’ undeclared (first use in this function); did you mean ‘DMA_TO_DEVICE’?
+  668 |         dir = (direction == DMA_TX)? PCI_DMA_TODEVICE: PCI_DMA_FROMDEVICE;
+      |                                      ^~~~~~~~~~~~~~~~
+      |                                      DMA_TO_DEVICE
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/shared/linux_osl.c:668:56: error: ‘PCI_DMA_FROMDEVICE’ undeclared (first use in this function); did you mean ‘DMA_FROM_DEVICE’?
+  668 |         dir = (direction == DMA_TX)? PCI_DMA_TODEVICE: PCI_DMA_FROMDEVICE;
+      |                                                        ^~~~~~~~~~~~~~~~~~
+      |                                                        DMA_FROM_DEVICE
+/var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/shared/linux_osl.c:669:9: error: implicit declaration of function ‘pci_unmap_single’; did you mean ‘dma_unmap_single’? [-Werror=implicit-function-declaration]
+  669 |         pci_unmap_single(osh->pdev, (uint32)pa, size, dir);
+      |         ^~~~~~~~~~~~~~~~
+      |         dma_unmap_single
+cc1: some warnings being treated as errors
+make[2]: *** [scripts/Makefile.build:251: /var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/shared/linux_osl.o] Error 1
+cc1: some warnings being treated as errors
+make[2]: *** [scripts/Makefile.build:251: /var/lib/dkms/bcmwl/6.30.223.271+bdcom/build/src/wl/sys/wl_linux.o] Error 1
+make[1]: *** [/usr/src/linux-headers-6.5.0-41-generic/Makefile:2039: /var/lib/dkms/bcmwl/6.30.223.271+bdcom/build] Error 2
+make: *** [Makefile:234: __sub-make] Error 2
+make: Leaving directory '/usr/src/linux-headers-6.5.0-41-generic'

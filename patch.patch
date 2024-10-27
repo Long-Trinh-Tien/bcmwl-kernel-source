@@ -1,0 +1,199 @@
+diff -u bcmwl-6.30.223.271+bdcom/debian/changelog bcmwl-6.30.223.271+bdcom/debian/changelog
+--- bcmwl-6.30.223.271+bdcom/debian/changelog
++++ bcmwl-6.30.223.271+bdcom/debian/changelog
+@@ -1,3 +1,13 @@
++bcmwl (6.30.223.271+bdcom-0ubuntu9~22.04.1) jammy; urgency=medium
++
++  * Rebuild with the jammy toolchain.
++
++  * Properly support kernel 5.19 (LP: #1981968):
++    - debian/patches/broadcom-wl-fix-linux-5.17.patch
++    - debian/patches/broadcom-wl-fix-linux-5.18.patch
++
++ -- Andrea Righi <andrea.righi@canonical.com>  Thu, 05 Jan 2023 17:21:21 +0000
++
+ bcmwl (6.30.223.271+bdcom-0ubuntu9) kinetic; urgency=medium
+ 
+   * debian/dkms.conf.in,
+only in patch2:
+unchanged:
+--- bcmwl-6.30.223.271+bdcom.orig/debian/patches/broadcom-wl-fix-linux-5.17.patch
++++ bcmwl-6.30.223.271+bdcom/debian/patches/broadcom-wl-fix-linux-5.17.patch
+@@ -0,0 +1,80 @@
++From 31b7849092c43805c7fbaf7518b99874aa1b310c Mon Sep 17 00:00:00 2001
++From: Joan Bruguera <joanbrugueram@gmail.com>
++Date: Wed, 12 Jan 2022 20:49:20 +0100
++Subject: [PATCH] Tentative fix for broadcom-wl 6.30.223.271 driver for Linux 5.17-rc1
++
++Set netdev->dev_addr through dev_addr_mod + PDE_DATA fix
++
++Since Linux 5.17 netdev->dev_addr is const and must be changed through
++dev_addr_mod, otherwise a warning is logged in dmesg and bad things may happen.
++
++NB: The #if is not wrong, dev_addr_mod is defined since Linux 5.15-rc1
++
++Plus a trivial fix for PDE_DATA.
++
++Applies on top of all the patches applied to broadcom-wl-dkms 6.30.223.271-28 on Arch Linux.
++
++See also: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=adeef3e32146a8d2a73c399dc6f5d76a449131b1
++          https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=359745d78351c6f5442435f81549f0207ece28aa
++---
++ src/wl/sys/wl_linux.c | 16 +++++++++++++---
++ 1 file changed, 13 insertions(+), 3 deletions(-)
++
++diff --git a/src/wl/sys/wl_linux.c b/src/wl/sys/wl_linux.c
++index e491df7..e4614fb 100644
++--- a/src/wl/sys/wl_linux.c
+++++ b/src/wl/sys/wl_linux.c
++@@ -93,6 +93,10 @@ struct iw_statistics *wl_get_wireless_stats(struct net_device *dev);
++ 
++ #include <wlc_wowl.h>
++ 
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 17, 0))
+++#define PDE_DATA pde_data
+++#endif
+++
++ #if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 15, 0)
++ static void wl_timer(struct timer_list *tl);
++ #else
++@@ -490,6 +494,12 @@ wl_if_setup(struct net_device *dev)
++ #endif
++ }
++ 
+++#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 15, 0)
+++static inline void eth_hw_addr_set(struct net_device *dev, const void *addr) {
+++	memcpy(dev->dev_addr, addr, ETHER_ADDR_LEN);
+++}
+++#endif
+++
++ static wl_info_t *
++ wl_attach(uint16 vendor, uint16 device, ulong regs,
++ 	uint bustype, void *btparam, uint irq, uchar* bar1_addr, uint32 bar1_size)
++@@ -634,7 +644,7 @@ wl_attach(uint16 vendor, uint16 device, ulong regs,
++ 			WL_ERROR(("wl%d: Error setting MAC ADDRESS\n", unit));
++ 	}
++ #endif 
++-	bcopy(&wl->pub->cur_etheraddr, dev->dev_addr, ETHER_ADDR_LEN);
+++	eth_hw_addr_set(dev, wl->pub->cur_etheraddr.octet);
++ 
++ 	online_cpus = 1;
++ 
++@@ -1835,7 +1845,7 @@ wl_set_mac_address(struct net_device *dev, void *addr)
++ 
++ 	WL_LOCK(wl);
++ 
++-	bcopy(sa->sa_data, dev->dev_addr, ETHER_ADDR_LEN);
+++	eth_hw_addr_set(dev, sa->sa_data);
++ 	err = wlc_iovar_op(wl->wlc, "cur_etheraddr", NULL, 0, sa->sa_data, ETHER_ADDR_LEN,
++ 		IOV_SET, (WL_DEV_IF(dev))->wlcif);
++ 	WL_UNLOCK(wl);
++@@ -3010,7 +3020,7 @@ _wl_add_monitor_if(wl_task_t *task)
++ 	else
++ 		dev->type = ARPHRD_IEEE80211_RADIOTAP;
++ 
++-	bcopy(wl->dev->dev_addr, dev->dev_addr, ETHER_ADDR_LEN);
+++	eth_hw_addr_set(dev, wl->dev->dev_addr);
++ 
++ #if defined(WL_USE_NETDEV_OPS)
++ 	dev->netdev_ops = &wl_netdev_monitor_ops;
++-- 
++2.35.1
++
+only in patch2:
+unchanged:
+--- bcmwl-6.30.223.271+bdcom.orig/debian/patches/broadcom-wl-fix-linux-5.18.patch
++++ bcmwl-6.30.223.271+bdcom/debian/patches/broadcom-wl-fix-linux-5.18.patch
+@@ -0,0 +1,92 @@
++From 8f8f04dcbb71f1a7c41c39b73c5f64bf01fc38cc Mon Sep 17 00:00:00 2001
++From: Joan Bruguera <joanbrugueram@gmail.com>
++Date: Mon, 4 Apr 2022 21:53:54 +0200
++Subject: [PATCH] Buildfix broadcom-wl 6.30.223.271 for Linux 5.18-rc1
++
++Applies on top of all the patches applied to broadcom-wl-dkms 6.30.223.271-29 on Arch Linux.
++
++See also: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d56baf6efaf14e2910610216c581ca71d6940012 (credit for reference @Satadru Pramanik)
++          https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=7968778914e53788a01c2dee2692cab157de9ac0
++---
++ src/shared/linux_osl.c | 18 +++++++++---------
++ 1 file changed, 9 insertions(+), 9 deletions(-)
++
++diff --git a/src/shared/linux_osl.c b/src/shared/linux_osl.c
++index 78af77a..1688a74 100644
++--- a/src/shared/linux_osl.c
+++++ b/src/shared/linux_osl.c
++@@ -48,7 +48,7 @@ typedef struct bcm_mem_link {
++ struct osl_info {
++ 	osl_pubinfo_t pub;
++ 	uint magic;
++-	void *pdev;
+++	struct pci_dev *pdev;
++ 	atomic_t malloced;
++ 	atomic_t pktalloced; 	
++ 	uint failed;
++@@ -600,7 +600,7 @@ osl_dma_alloc_consistent(osl_t *osh, uint size, uint16 align_bits, uint *alloced
++ 	if (va)
++ 		*pap = (ulong)__virt_to_phys(va);
++ #else
++-	va = pci_alloc_consistent(osh->pdev, size, (dma_addr_t*)pap);
+++	va = dma_alloc_coherent(&osh->pdev->dev, size, (dma_addr_t *)pap, GFP_ATOMIC);
++ #endif
++ 	return va;
++ }
++@@ -613,7 +613,7 @@ osl_dma_free_consistent(osl_t *osh, void *va, uint size, ulong pa)
++ #ifdef __ARM_ARCH_7A__
++ 	kfree(va);
++ #else
++-	pci_free_consistent(osh->pdev, size, va, (dma_addr_t)pa);
+++	dma_free_coherent(&osh->pdev->dev, size, va, (dma_addr_t)pa);
++ #endif
++ }
++ 
++@@ -623,7 +623,7 @@ osl_dma_map(osl_t *osh, void *va, uint size, int direction, void *p, hnddma_seg_
++ 	int dir;
++ 
++ 	ASSERT((osh && (osh->magic == OS_HANDLE_MAGIC)));
++-	dir = (direction == DMA_TX)? PCI_DMA_TODEVICE: PCI_DMA_FROMDEVICE;
+++	dir = (direction == DMA_TX)? DMA_TO_DEVICE : DMA_FROM_DEVICE;
++ 
++ #if defined(__ARM_ARCH_7A__) && defined(BCMDMASGLISTOSL)
++ 	if (dmah != NULL) {
++@@ -635,13 +635,13 @@ osl_dma_map(osl_t *osh, void *va, uint size, int direction, void *p, hnddma_seg_
++ 			if (skb_is_nonlinear(skb)) {
++ 				nsegs = skb_to_sgvec(skb, sg, 0, PKTLEN(osh, skb));
++ 				ASSERT((nsegs > 0) && (totsegs + nsegs <= MAX_DMA_SEGS));
++-				pci_map_sg(osh->pdev, sg, nsegs, dir);
+++				dma_map_sg(&osh->pdev->dev, sg, nsegs, dir);
++ 			} else {
++ 				nsegs = 1;
++ 				ASSERT(totsegs + nsegs <= MAX_DMA_SEGS);
++ 				sg->page_link = 0;
++ 				sg_set_buf(sg, PKTDATA(osh, skb), PKTLEN(osh, skb));
++-				pci_map_single(osh->pdev, PKTDATA(osh, skb), PKTLEN(osh, skb), dir);
+++				dma_map_single(&osh->pdev->dev, PKTDATA(osh, skb), PKTLEN(osh, skb), dir);
++ 			}
++ 			totsegs += nsegs;
++ 			totlen += PKTLEN(osh, skb);
++@@ -656,7 +656,7 @@ osl_dma_map(osl_t *osh, void *va, uint size, int direction, void *p, hnddma_seg_
++ 	}
++ #endif 
++ 
++-	return (pci_map_single(osh->pdev, va, size, dir));
+++	return (dma_map_single(&osh->pdev->dev, va, size, dir));
++ }
++ 
++ void BCMFASTPATH
++@@ -665,8 +665,8 @@ osl_dma_unmap(osl_t *osh, uint pa, uint size, int direction)
++ 	int dir;
++ 
++ 	ASSERT((osh && (osh->magic == OS_HANDLE_MAGIC)));
++-	dir = (direction == DMA_TX)? PCI_DMA_TODEVICE: PCI_DMA_FROMDEVICE;
++-	pci_unmap_single(osh->pdev, (uint32)pa, size, dir);
+++	dir = (direction == DMA_TX)? DMA_TO_DEVICE : DMA_FROM_DEVICE;
+++	dma_unmap_single(&osh->pdev->dev, (uint32)pa, size, dir);
++ }
++ 
++ #if defined(BCMDBG_ASSERT)
++-- 
++2.35.1
++
